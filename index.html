@@ -2,114 +2,121 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quy Trình Báo Cáo - Gen Z Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quy Trình Báo Cáo - Gen Z Mobile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    <!-- Font Quicksand cho cảm giác tròn trịa, thân thiện hơn -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE VISUALS --- */
+        /* --- MOBILE CORE --- */
         body {
-            background-color: #f0fdf4; /* Light Mint Base */
-            color: #1e293b; /* Slate 800 - Dark text for contrast */
+            background-color: #f0fdf4;
+            color: #1e293b;
             font-family: 'Quicksand', sans-serif;
             overflow: hidden;
             margin: 0;
-            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height fix for mobile */
             width: 100vw;
+            touch-action: pan-y; /* Prevent vertical scroll interference */
         }
 
-        /* --- BACKGROUND EFFECTS --- */
+        /* --- BACKGROUND --- */
         .cinematic-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; }
-        
-        /* Pastel Blobs */
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6;
-            animation: floatBlob 15s infinite alternate ease-in-out;
-        }
-        /* Gradient Pop Colors */
-        .blob-1 { top: -10%; left: -10%; width: 600px; height: 600px; background: #f9a8d4; } /* Pink 300 */
-        .blob-2 { bottom: -10%; right: -10%; width: 700px; height: 700px; background: #a78bfa; animation-delay: -5s; } /* Purple 400 */
-        .blob-3 { top: 40%; left: 40%; width: 500px; height: 500px; background: #67e8f9; animation-delay: -10s; opacity: 0.5; } /* Cyan 300 */
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; animation: floatBlob 10s infinite alternate ease-in-out; }
+        .blob-1 { top: -5%; left: -20%; width: 300px; height: 300px; background: #f9a8d4; }
+        .blob-2 { bottom: -5%; right: -20%; width: 350px; height: 350px; background: #a78bfa; animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 20%; width: 250px; height: 250px; background: #67e8f9; animation-delay: -8s; opacity: 0.4; }
 
         @keyframes floatBlob {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            100% { transform: translate(50px, 80px) scale(1.1) rotate(20deg); }
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, 30px) scale(1.05); }
         }
 
-        /* --- NAVIGATION UI --- */
+        /* --- NAVIGATION --- */
         .glass-nav {
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 9999px;
-            padding: 0.5rem; display: flex; gap: 0.5rem; z-index: 50;
-            box-shadow: 0 10px 30px rgba(167, 139, 250, 0.15); /* Purple shadow */
+            padding: 0.4rem; display: flex; gap: 0.5rem; z-index: 50;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            /* Mobile positioning */
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
         }
         .nav-btn {
-            width: 44px; height: 44px; border-radius: 50%; display: flex; items-center; justify-content: center;
-            color: #475569; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; background: rgba(255,255,255,0.5);
+            width: 40px; height: 40px; border-radius: 50%; display: flex; items-center; justify-content: center;
+            color: #475569; background: rgba(255,255,255,0.5); cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
-        .nav-btn:hover { background: #fff; transform: scale(1.15) rotate(10deg); color: #8b5cf6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .nav-btn:active { background: #e2e8f0; transform: scale(0.95); }
 
-        /* --- SLIDE ARCHITECTURE --- */
+        /* --- SLIDE LOGIC --- */
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy transition */
-            transform: scale(0.9) translateY(40px) rotate(-2deg); z-index: 1; padding: 2rem;
+            opacity: 0; pointer-events: none; 
+            transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.95) translateX(20px); 
+            z-index: 1; padding: 1rem;
+            box-sizing: border-box;
         }
-        .slide.active { opacity: 1; transform: scale(1) translateY(0) rotate(0); pointer-events: auto; z-index: 10; }
+        .slide.active { opacity: 1; transform: scale(1) translateX(0); pointer-events: auto; z-index: 10; }
+        
+        /* Mobile Scrollable Content Container within Slide */
+        .slide-content {
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            /* Hide scrollbar */
+            -ms-overflow-style: none; scrollbar-width: none; 
+        }
+        .slide-content::-webkit-scrollbar { display: none; }
 
-        /* --- MODERN COMPONENTS (GEN Z STYLE) --- */
+        /* --- COMPONENTS --- */
         .modern-card {
-            background: rgba(255, 255, 255, 0.65); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 32px;
-            box-shadow: 0 20px 60px -15px rgba(71, 85, 105, 0.1);
-            transition: all 0.4s ease; overflow: hidden;
-            color: #334155;
-        }
-        .modern-card:hover { 
-            transform: translateY(-8px) scale(1.02); 
-            background: rgba(255, 255, 255, 0.85);
-            box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.15); 
-            border-color: #fff;
+            background: rgba(255, 255, 255, 0.75); 
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px;
+            box-shadow: 0 10px 30px -10px rgba(71, 85, 105, 0.1);
+            color: #334155; width: 100%;
         }
 
         .syntax-pill {
-            display: inline-flex; align-items: center; padding: 10px 20px; border-radius: 16px; 
-            margin: 6px; font-weight: 700; font-family: 'Fira Code', monospace; letter-spacing: -0.5px;
-            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.05);
-            background: white; border: 1px solid #e2e8f0;
-            color: #475569;
+            display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 12px; 
+            margin: 4px; font-weight: 700; font-family: 'Fira Code', monospace; font-size: 0.8rem;
+            background: white; border: 1px solid #e2e8f0; color: #475569;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
-        /* Section Titles */
         .section-tag {
-            text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.75rem; font-weight: 800;
-            margin-bottom: 1.5rem; padding: 0.6rem 1.5rem; border-radius: 99px;
-            background: #fff; color: #64748b; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.65rem; font-weight: 800;
+            margin-bottom: 1rem; padding: 0.4rem 1rem; border-radius: 99px;
+            background: #fff; color: #64748b; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: inline-block;
         }
 
         /* --- ANIMATIONS --- */
-        .anim { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .anim { opacity: 0; transform: translateY(20px); transition: all 0.5s ease-out; }
         .slide.active .anim { opacity: 1; transform: translateY(0); }
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
 
-        /* Custom Scrollbar for Phone Mockup */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Gradient Text Helper */
         .text-gradient-main {
             background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+
+        /* Swipe Hint Animation */
+        .swipe-hint {
+            position: absolute; bottom: 6rem; left: 50%; transform: translateX(-50%);
+            color: #94a3b8; font-size: 0.8rem; opacity: 0.6;
+            animation: swipeAnim 2s infinite; pointer-events: none;
+        }
+        @keyframes swipeAnim {
+            0%, 100% { transform: translateX(-50%) translateX(0); opacity: 0.3; }
+            50% { transform: translateX(-50%) translateX(-10px); opacity: 0.8; }
+        }
+
     </style>
 </head>
 <body>
@@ -121,278 +128,246 @@
     </div>
 
     <!-- Navigation -->
-    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 glass-nav">
-        <div onclick="changeSlide(-1)" class="nav-btn"><i class="fas fa-arrow-left"></i></div>
-        <div class="px-6 flex items-center font-bold text-lg tracking-widest text-slate-600 font-mono">
-            <span id="slideCounter">01</span><span class="text-slate-300 mx-2">/</span><span id="totalSlides">25</span>
+    <div class="glass-nav">
+        <div onclick="changeSlide(-1)" class="nav-btn"><i class="fas fa-chevron-left"></i></div>
+        <div class="px-4 flex items-center font-bold text-base tracking-widest text-slate-600 font-mono w-16 justify-center">
+            <span id="slideCounter">1</span><span class="text-slate-300 mx-1">/</span><span id="totalSlides">25</span>
         </div>
-        <div onclick="changeSlide(1)" class="nav-btn"><i class="fas fa-arrow-right"></i></div>
+        <div onclick="changeSlide(1)" class="nav-btn"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <div class="swipe-hint flex items-center gap-2">
+        <i class="fas fa-hand-pointer rotate-90"></i> Vuốt để xem
     </div>
 
     <main id="slider" class="w-full h-full relative">
 
         <!-- 1. Intro -->
         <div class="slide active">
-            <div class="anim text-center relative z-10">
-                <div class="inline-block px-4 py-1 rounded-full bg-white/60 mb-8 border border-white backdrop-blur shadow-sm">
-                    <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500">✨ NEWBIE TRAINING KIT</span>
+            <div class="slide-content anim text-center w-full px-4">
+                <div class="inline-block px-3 py-1 rounded-full bg-white/60 mb-6 border border-white backdrop-blur shadow-sm">
+                    <span class="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500">✨ MOBILE TRAINING KIT</span>
                 </div>
-                <h1 class="text-7xl md:text-9xl font-black mb-6 leading-tight drop-shadow-sm text-slate-800">
+                <h1 class="text-6xl font-black mb-4 leading-tight text-slate-800">
                     LOGIC<br>
                     <span class="text-gradient-main">FLOW</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
-                    Hệ thống báo cáo "chuẩn chỉ" nhưng không "cứng nhắc".<br>
-                    <span class="text-violet-600 font-bold">Chính xác - Dễ nhớ - Chill</span>
+                <p class="text-lg text-slate-500 max-w-xs mx-auto font-medium mb-8">
+                    Hệ thống báo cáo chuẩn chỉ.<br>
+                    <span class="text-violet-600 font-bold">Dành cho Gen Z</span>
                 </p>
-                <button onclick="goToSlide(1)" class="mt-12 group relative px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-lg overflow-hidden transition-all hover:scale-110 hover:shadow-2xl hover:shadow-violet-400/50">
-                    <span class="relative z-10 flex items-center gap-3">LET'S GO <i class="fas fa-rocket text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition"></i></span>
+                <button onclick="goToSlide(1)" class="w-full max-w-xs py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-violet-200 active:scale-95 transition">
+                    BẮT ĐẦU NGAY 🚀
                 </button>
             </div>
         </div>
 
-        <!-- 2. Interactive Map -->
+        <!-- 2. Interactive Map (Mobile Vertical) -->
         <div class="slide">
-            <div class="absolute top-10 left-10 anim z-20">
-                <h2 class="text-4xl font-black text-slate-800 mb-2">Bản Đồ Tư Duy 🧠</h2>
-                <p class="text-slate-500">3 trạm dừng chân chính</p>
-            </div>
-            
-            <div class="relative w-full max-w-5xl h-[500px] anim delay-200 flex items-center justify-center">
-                <!-- Lines -->
-                <svg class="absolute inset-0 w-full h-full pointer-events-none">
-                    <path d="M 250 250 L 750 250" stroke="#34d399" stroke-width="6" stroke-linecap="round" stroke-dasharray="12" opacity="0.4" class="animate-pulse"></path>
-                    <path d="M 250 250 Q 500 450 750 250" stroke="#f472b6" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.3"></path>
-                </svg>
+             <div class="slide-content w-full px-2">
+                <h2 class="text-3xl font-black text-slate-800 mb-6 text-center anim">Bản Đồ Tư Duy 🧠</h2>
+                
+                <div class="flex flex-col gap-4 w-full max-w-xs mx-auto anim delay-100">
+                    <!-- Node 1 -->
+                    <div onclick="goToSlide(4)" class="modern-card p-4 flex items-center gap-4 active:scale-95 transition cursor-pointer border-l-4 border-yellow-400">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-2xl flex items-center justify-center text-yellow-600 text-xl shadow-sm"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">1. Báo Cọc</h3>
+                            <p class="text-xs text-slate-500">Khách chốt đơn!</p>
+                        </div>
+                        <i class="fas fa-chevron-right ml-auto text-slate-300"></i>
+                    </div>
 
-                <!-- Nodes -->
-                <div onclick="goToSlide(4)" class="absolute left-10 top-1/2 -translate-y-1/2 modern-card p-6 w-64 text-center cursor-pointer hover:border-yellow-400 border-2 border-white group bg-white/80">
-                    <div class="w-20 h-20 bg-yellow-100 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition shadow-sm"><i class="fas fa-file-invoice-dollar text-4xl text-yellow-500"></i></div>
-                    <h3 class="font-bold text-xl text-slate-800">1. Báo Cọc</h3>
-                    <p class="text-sm text-slate-500 mt-2 font-medium">Khách chốt đơn!</p>
-                </div>
+                    <!-- Arrow Down -->
+                    <div class="text-center text-slate-300"><i class="fas fa-arrow-down"></i></div>
 
-                <div onclick="goToSlide(12)" class="absolute bottom-10 left-1/2 -translate-x-1/2 modern-card p-6 w-64 text-center cursor-pointer hover:border-orange-500 border-2 border-white group bg-white/80">
-                    <div class="w-20 h-20 bg-orange-100 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:-rotate-12 transition shadow-sm"><i class="fas fa-tools text-4xl text-orange-500"></i></div>
-                    <h3 class="font-bold text-xl text-slate-800">2. Báo Lại</h3>
-                    <p class="text-sm text-slate-500 mt-2 font-medium">Oops! Sửa lỗi xíu</p>
-                </div>
+                     <!-- Node 2 -->
+                     <div onclick="goToSlide(12)" class="modern-card p-4 flex items-center gap-4 active:scale-95 transition cursor-pointer border-l-4 border-orange-400">
+                        <div class="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 text-xl shadow-sm"><i class="fas fa-tools"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">2. Báo Lại</h3>
+                            <p class="text-xs text-slate-500">Sửa lỗi (nếu có)</p>
+                        </div>
+                        <i class="fas fa-chevron-right ml-auto text-slate-300"></i>
+                    </div>
 
-                <div onclick="goToSlide(16)" class="absolute right-10 top-1/2 -translate-y-1/2 modern-card p-6 w-64 text-center cursor-pointer hover:border-green-500 border-2 border-white group bg-white/80">
-                    <div class="w-20 h-20 bg-green-100 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition shadow-sm"><i class="fas fa-gem text-4xl text-green-500"></i></div>
-                    <h3 class="font-bold text-xl text-slate-800">3. GDTC</h3>
-                    <p class="text-sm text-slate-500 mt-2 font-medium">Lụm lúa về kho 🌾</p>
+                    <!-- Arrow Down -->
+                    <div class="text-center text-slate-300"><i class="fas fa-arrow-down"></i></div>
+
+                     <!-- Node 3 -->
+                     <div onclick="goToSlide(16)" class="modern-card p-4 flex items-center gap-4 active:scale-95 transition cursor-pointer border-l-4 border-green-500">
+                        <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-500 text-xl shadow-sm"><i class="fas fa-gem"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">3. GDTC</h3>
+                            <p class="text-xs text-slate-500">Nhận hoa hồng 🌾</p>
+                        </div>
+                        <i class="fas fa-chevron-right ml-auto text-slate-300"></i>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 3. Onboarding -->
         <div class="slide">
-            <div class="flex flex-col md:flex-row items-center gap-12 max-w-5xl">
-                <div class="flex-1 anim text-right">
-                    <h2 class="text-6xl font-black text-slate-800 mb-6">Người Mới? 👋</h2>
-                    <p class="text-2xl text-slate-500 font-medium mb-8">
-                        Khoan đã! Bạn đã có "Danh Phận" chưa?
-                    </p>
-                    <div class="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-5 rounded-2xl shadow-xl shadow-cyan-200/50 hover:scale-105 transition cursor-pointer">
-                        <div class="text-xs font-bold text-blue-100 uppercase mb-1">Bước đầu tiên</div>
-                        <div class="text-xl font-bold text-white flex items-center gap-3">
-                            <i class="fas fa-comment-dots"></i> Inbox Leader Ngay
-                        </div>
-                    </div>
+            <div class="slide-content w-full px-4 text-center">
+                <h2 class="text-4xl font-black text-slate-800 mb-4 anim">Người Mới? 👋</h2>
+                <div class="bg-white/80 p-6 rounded-3xl shadow-sm mb-6 w-full max-w-sm mx-auto anim delay-100">
+                    <p class="text-slate-600 font-medium mb-4">Bạn đã có "Danh Phận" chưa?</p>
+                    <a href="#" class="block bg-blue-500 text-white py-3 rounded-xl font-bold active:bg-blue-600 transition">
+                        <i class="fas fa-comment-dots mr-2"></i> Inbox Leader Ngay
+                    </a>
                 </div>
-                <div class="w-[2px] h-64 bg-slate-200 hidden md:block rounded-full"></div>
-                <div class="flex-1 anim delay-200">
-                    <ul class="space-y-6">
-                        <li class="flex items-center gap-5 p-4 rounded-2xl bg-white/50 border border-white shadow-sm">
-                            <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-xl font-black text-slate-400">1</div>
-                            <span class="text-lg text-slate-700 font-bold">Xin Mã Nhân Viên (ID)</span>
-                        </li>
-                        <li class="flex items-center gap-5 p-4 rounded-2xl bg-white/50 border border-white shadow-sm">
-                            <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-xl font-black text-slate-400">2</div>
-                            <span class="text-lg text-slate-700 font-bold">Vào đủ 3 nhóm Zalo</span>
-                        </li>
-                        <li class="flex items-center gap-5 p-4 rounded-2xl bg-yellow-50 border border-yellow-200 shadow-sm">
-                            <div class="w-12 h-12 rounded-2xl bg-yellow-400 text-white flex items-center justify-center text-xl font-black shadow-lg shadow-yellow-200">3</div>
-                            <span class="text-lg text-yellow-700 font-bold">Chiến thôi! 🚀</span>
-                        </li>
-                    </ul>
+                
+                <div class="space-y-3 w-full max-w-sm mx-auto anim delay-200 text-left">
+                    <div class="flex items-center gap-3 p-3 bg-white/60 rounded-xl border border-white">
+                        <span class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-lg font-bold text-slate-500 text-sm">1</span>
+                        <span class="text-sm font-bold text-slate-700">Xin Mã Nhân Viên (ID)</span>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-white/60 rounded-xl border border-white">
+                        <span class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-lg font-bold text-slate-500 text-sm">2</span>
+                        <span class="text-sm font-bold text-slate-700">Vào đủ 3 nhóm Zalo</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 4. Core Rule -->
         <div class="slide">
-            <div class="modern-card p-16 text-center border-t-8 border-rose-500 max-w-4xl anim bg-white">
-                <div class="w-32 h-32 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
-                    <i class="fas fa-hand-paper text-6xl text-rose-500"></i>
-                </div>
-                <h2 class="text-5xl font-black text-slate-800 mb-6 tracking-tight">Quy Tắc Sống Còn</h2>
-                <div class="text-2xl text-slate-500 font-medium leading-relaxed mb-10">
-                    Tuyệt đối <strong class="text-white bg-rose-500 px-2 py-1 rounded-lg mx-1 shadow-lg shadow-rose-300">KHÔNG THU HỒI</strong> tin nhắn.
-                </div>
-                <div class="flex justify-center gap-4 flex-wrap">
-                    <div class="px-6 py-3 bg-rose-50 rounded-xl text-rose-600 text-sm font-bold border border-rose-100 flex items-center gap-2">
-                        <i class="fas fa-times-circle"></i> Sai chính tả
+            <div class="slide-content w-full px-4">
+                <div class="modern-card p-8 text-center border-t-4 border-rose-500 anim bg-white">
+                    <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                        <i class="fas fa-hand-paper text-4xl text-rose-500"></i>
                     </div>
-                    <div class="px-6 py-3 bg-rose-50 rounded-xl text-rose-600 text-sm font-bold border border-rose-100 flex items-center gap-2">
-                        <i class="fas fa-times-circle"></i> Sai giá
+                    <h2 class="text-3xl font-black text-slate-800 mb-4">Quy Tắc Sống Còn</h2>
+                    <div class="text-lg text-slate-600 font-medium mb-6">
+                        Tuyệt đối <strong class="text-rose-600 block text-2xl mt-1">KHÔNG THU HỒI</strong> tin nhắn.
                     </div>
-                    <div class="px-6 py-3 bg-rose-50 rounded-xl text-rose-600 text-sm font-bold border border-rose-100 flex items-center gap-2">
-                        <i class="fas fa-times-circle"></i> Muốn sửa lại
+                    <div class="grid grid-cols-1 gap-2 text-left">
+                        <div class="px-4 py-2 bg-rose-50 rounded-lg text-rose-600 text-xs font-bold flex items-center">
+                            <i class="fas fa-times-circle mr-2"></i> Sai chính tả
+                        </div>
+                        <div class="px-4 py-2 bg-rose-50 rounded-lg text-rose-600 text-xs font-bold flex items-center">
+                            <i class="fas fa-times-circle mr-2"></i> Sai giá / Sai thông tin
+                        </div>
                     </div>
                 </div>
-                <p class="mt-8 text-slate-400 text-sm font-medium italic">👉 Vi phạm = Kế toán khóc thét 😭 = Phạt</p>
             </div>
         </div>
 
         <!-- 5. Section 1 Title -->
         <div class="slide">
-            <div class="text-center anim">
+            <div class="anim text-center">
                 <div class="section-tag">LEVEL 1</div>
-                <div class="w-40 h-40 rounded-[3rem] bg-gradient-to-tr from-yellow-300 to-orange-400 flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-orange-300/50 transform rotate-6 hover:rotate-0 transition duration-500 scale-100 hover:scale-110">
-                    <i class="fas fa-file-invoice-dollar text-7xl text-white"></i>
+                <div class="w-32 h-32 rounded-[2rem] bg-gradient-to-tr from-yellow-300 to-orange-400 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-orange-300/50">
+                    <i class="fas fa-file-invoice-dollar text-5xl text-white"></i>
                 </div>
-                <h2 class="text-8xl font-black text-slate-800 mb-4 tracking-tighter">BÁO CỌC</h2>
-                <p class="text-2xl text-slate-500 font-medium">Bước xác nhận giữ "slot" cho khách</p>
+                <h2 class="text-6xl font-black text-slate-800 mb-2">BÁO CỌC</h2>
+                <p class="text-lg text-slate-500 font-medium">Bước xác nhận giữ "slot"</p>
             </div>
         </div>
 
         <!-- 6. Roles M & S -->
         <div class="slide">
-            <h2 class="text-4xl font-bold text-slate-800 mb-10 anim">Teamwork: M & S 🤝</h2>
-            <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl">
-                <!-- M -->
-                <div class="modern-card p-10 flex-1 flex items-center gap-6 anim delay-100 border-l-[12px] border-blue-400 bg-blue-50/50 hover:bg-white">
-                    <div class="text-7xl font-black text-blue-200">M</div>
-                    <div>
-                        <h3 class="text-3xl font-bold text-blue-500 mb-2">Marketing</h3>
-                        <p class="text-slate-500 font-medium">Săn khách Online 💻</p>
+            <div class="slide-content w-full px-4">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center anim">Teamwork: M & S 🤝</h2>
+                <div class="flex flex-col gap-4 w-full max-w-sm mx-auto">
+                    <!-- M -->
+                    <div class="modern-card p-5 flex items-center gap-4 anim delay-100 border-l-8 border-blue-400">
+                        <div class="text-4xl font-black text-blue-200">M</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-500">Marketing</h3>
+                            <p class="text-xs text-slate-500">Săn khách Online 💻</p>
+                        </div>
                     </div>
-                </div>
-                <!-- S -->
-                <div class="modern-card p-10 flex-1 flex items-center gap-6 anim delay-200 border-l-[12px] border-yellow-400 bg-yellow-50/50 hover:bg-white">
-                    <div class="text-7xl font-black text-yellow-200">S</div>
-                    <div>
-                        <h3 class="text-3xl font-bold text-yellow-500 mb-2">Sale</h3>
-                        <p class="text-slate-500 font-medium">Chốt khách Offline 🤝</p>
+                    <!-- S -->
+                    <div class="modern-card p-5 flex items-center gap-4 anim delay-200 border-l-8 border-yellow-400">
+                        <div class="text-4xl font-black text-yellow-200">S</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-yellow-500">Sale</h3>
+                            <p class="text-xs text-slate-500">Chốt khách Offline 🤝</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- MS Case -->
-            <div class="mt-8 modern-card p-8 w-full max-w-5xl anim delay-300 border border-purple-200 bg-gradient-to-r from-purple-50 to-white flex items-center justify-between">
-                <div class="flex items-center gap-6">
-                    <div class="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-purple-300">MS</div>
-                    <div>
-                        <h3 class="font-bold text-xl text-slate-800">Solo Player (Cân tất)</h3>
-                        <p class="text-sm text-slate-500">Tự tìm khách & Tự dẫn khách.</p>
+                    <!-- MS -->
+                    <div class="modern-card p-4 anim delay-300 border border-purple-200 bg-purple-50/50 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-sm">MS</div>
+                            <div>
+                                <h3 class="font-bold text-sm text-slate-800">Solo Player</h3>
+                                <p class="text-[10px] text-slate-500">Làm cả 2</p>
+                            </div>
+                        </div>
+                        <div class="font-mono text-xs text-purple-600 font-bold bg-white px-3 py-1 rounded border border-purple-100">
+                            MS(ID)
+                        </div>
                     </div>
-                </div>
-                <div class="font-mono text-lg text-purple-600 font-bold bg-purple-100 px-6 py-3 rounded-xl border border-purple-200">
-                    MS(Mã NV)
                 </div>
             </div>
         </div>
 
-        <!-- 7. Syntax Formula -->
+        <!-- 7. Syntax Formula (Mobile Wrap) -->
         <div class="slide">
-            <h2 class="text-3xl text-slate-800 font-bold mb-8 anim">Công Thức "Thần Thánh" 🧪</h2>
-            <div class="w-full max-w-7xl px-4 anim delay-100">
-                <div class="modern-card p-12 bg-white/90 border-white shadow-2xl">
-                    <div class="flex flex-wrap justify-center items-center gap-y-6 font-mono text-sm md:text-base">
-                        <!-- Group 1: People -->
-                        <div class="flex items-center bg-slate-100 rounded-xl p-3 border border-slate-200 shadow-inner">
-                            <span class="text-blue-500 font-bold">M(ID)</span>
-                            <span class="text-pink-500 font-black mx-3 text-xl bg-white w-8 h-8 flex items-center justify-center rounded-full shadow-sm">+</span>
-                            <span class="text-yellow-500 font-bold">S(ID)</span>
+            <div class="slide-content w-full px-2">
+                <h2 class="text-2xl text-slate-800 font-bold mb-6 text-center anim">Công Thức Cú Pháp 🧪</h2>
+                <div class="modern-card p-4 bg-white/90 anim delay-100">
+                    <div class="flex flex-wrap justify-center items-center gap-2 font-mono text-xs">
+                        <!-- Group 1 -->
+                        <div class="flex items-center bg-slate-100 rounded-lg p-2 border border-slate-200 w-full justify-center mb-2">
+                            <span class="text-blue-600 font-bold">M(ID)</span>
+                            <span class="text-pink-500 font-black mx-2 text-lg">+</span>
+                            <span class="text-yellow-600 font-bold">S(ID)</span>
                         </div>
-                        
-                        <span class="text-slate-300 mx-4 text-2xl font-light">|</span>
                         
                         <!-- Pills -->
                         <div class="syntax-pill">Địa Chỉ</div>
-                        <span class="text-slate-300 mx-1">-</span>
+                        <span class="text-slate-300">-</span>
                         <div class="syntax-pill">Mã Phòng</div>
-                        <span class="text-slate-300 mx-1">-</span>
-                        <div class="syntax-pill bg-green-50 text-green-600 border-green-200">Giá Phòng</div>
-                        
-                        <span class="text-slate-300 mx-4 text-2xl font-light">|</span>
-                        
+                        <span class="text-slate-300">-</span>
+                        <div class="syntax-pill bg-green-50 text-green-700 border-green-200">Giá</div>
+                        <span class="text-slate-300">-</span>
                         <div class="syntax-pill">Thời Hạn</div>
-                        <span class="text-slate-300 mx-1">-</span>
-                        <div class="syntax-pill bg-purple-50 text-purple-600 border-purple-200">%HH</div>
-                        <span class="text-slate-300 mx-1">-</span>
+                        <span class="text-slate-300">-</span>
+                        <div class="syntax-pill bg-purple-50 text-purple-700 border-purple-200">%HH</div>
+                        <span class="text-slate-300">-</span>
                         <div class="syntax-pill">Tiền Cọc</div>
-                        
-                        <span class="text-slate-300 mx-4 text-2xl font-light">|</span>
-                        
+                        <span class="text-slate-300">-</span>
                         <div class="syntax-pill bg-rose-50 text-rose-600 border-rose-200">Mã HĐ</div>
                     </div>
                 </div>
-                <div class="mt-8 text-center text-sm text-slate-500 font-medium">
-                    *Mẹo: Dùng dấu gạch ngang (-) để ngăn cách, riêng team M+S thì dùng dấu cộng (+)
+                <div class="mt-4 text-center text-xs text-slate-500 italic px-4">
+                    Ngăn cách bằng dấu gạch ngang (-). Team M+S dùng dấu cộng (+).
                 </div>
             </div>
         </div>
 
-        <!-- 8. Phone UI Demo (Light Mode) -->
+        <!-- 8. Phone UI Demo -->
         <div class="slide">
-            <div class="flex gap-16 items-center">
-                <div class="hidden md:block text-right anim">
-                    <h3 class="text-4xl font-bold text-slate-800 mb-4">Giao Diện Thực Tế</h3>
-                    <p class="text-slate-500 mb-8 text-lg font-medium">1 Tin nhắn Text + 1 Ảnh HĐ bên dưới.</p>
-                    <div class="flex flex-col gap-3 items-end">
-                        <div class="bg-green-100 text-green-700 px-4 py-2 rounded-xl text-sm font-bold shadow-sm">✅ Dễ đọc</div>
-                        <div class="bg-green-100 text-green-700 px-4 py-2 rounded-xl text-sm font-bold shadow-sm">✅ Pro</div>
-                    </div>
-                </div>
-                <!-- Phone Mockup -->
-                <div class="relative w-[340px] h-[650px] bg-white rounded-[50px] border-8 border-slate-900 shadow-2xl overflow-hidden anim delay-200">
-                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-7 bg-slate-900 rounded-b-2xl z-20"></div>
+            <div class="slide-content w-full px-4 flex flex-col items-center">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2 anim">Giao Diện Thực Tế 📱</h3>
+                <div class="w-full max-w-xs bg-white rounded-[30px] border-4 border-slate-900 shadow-2xl overflow-hidden anim delay-100 h-[480px] flex flex-col relative">
+                    <!-- Notch -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-slate-900 rounded-b-xl z-20"></div>
                     <!-- Header -->
-                    <div class="bg-white pt-12 pb-4 px-6 flex items-center justify-between border-b border-slate-100 shadow-sm z-10 relative">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-gradient-to-tr from-yellow-300 to-yellow-500 rounded-full flex items-center justify-center font-bold text-white text-sm shadow-md">BC</div>
+                    <div class="bg-slate-50 pt-8 pb-3 px-4 flex items-center justify-between border-b border-slate-200 z-10">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-gradient-to-tr from-yellow-300 to-yellow-500 rounded-full flex items-center justify-center font-bold text-white text-xs">BC</div>
                             <div>
-                                <div class="text-slate-800 text-sm font-bold">Nhóm Báo Cọc 💸</div>
-                                <div class="text-xs text-slate-400 font-medium">Active now</div>
+                                <div class="text-slate-800 text-xs font-bold">Nhóm Báo Cọc</div>
+                                <div class="text-[10px] text-slate-400">Active now</div>
                             </div>
                         </div>
-                        <i class="fas fa-info-circle text-blue-500 text-xl"></i>
                     </div>
-                    <!-- Body -->
-                    <div class="p-4 space-y-6 overflow-y-auto h-full pb-20 scrollbar-hide bg-slate-50">
-                        <div class="text-center text-xs text-slate-400 my-4">Today 14:02</div>
-                        
-                        <!-- Message 1 -->
+                    <!-- Chat Body -->
+                    <div class="p-3 space-y-4 overflow-y-auto flex-1 bg-slate-100">
+                         <!-- Msg 1 -->
                         <div class="flex flex-col items-end">
-                            <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-2xl rounded-tr-sm text-sm text-white max-w-[95%] shadow-md leading-relaxed mb-2">
-                                <span class="font-bold text-yellow-200 bg-white/20 px-1 rounded">M(U01) + S(U02)</span> - 125TBT.P2.Q5 - 102 - 8.000.000 - 6 tháng - 50% - cọc 8tr - 019663
+                            <div class="bg-blue-500 p-3 rounded-2xl rounded-tr-none text-xs text-white max-w-[95%] shadow-sm leading-relaxed mb-1">
+                                <span class="font-bold text-yellow-200">M(U01) + S(U02)</span> - 125TBT.P2.Q5 - 102 - 8tr - 6T - 50% - cọc 8tr - 019663
                             </div>
-                            <!-- Image -->
-                            <div class="w-40 h-48 bg-white rounded-2xl overflow-hidden border border-slate-200 relative shadow-sm group cursor-pointer">
-                                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                    <i class="fas fa-file-contract text-3xl mb-2 text-slate-200"></i>
-                                    <span class="text-[10px] font-bold text-slate-400">HĐ Đặt Cọc</span>
-                                    <span class="text-[10px] font-mono text-rose-500 font-bold bg-rose-50 px-2 py-0.5 rounded mt-1">019663</span>
-                                </div>
-                                <div class="absolute bottom-2 right-2 bg-green-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-sm"><i class="fas fa-check"></i></div>
-                            </div>
-                            <div class="text-[10px] text-slate-400 mt-1 font-medium">Đã xem</div>
-                        </div>
-
-                        <!-- Message 2 -->
-                        <div class="flex flex-col items-end">
-                            <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-2xl rounded-tr-sm text-sm text-white max-w-[95%] shadow-md leading-relaxed mb-2">
-                                <span class="font-bold text-purple-200 bg-white/20 px-1 rounded">MS(U01)</span> - 125TBT.P2.Q5 - 202 - 6.500.000 - 12 tháng - 80% - cọc 6.5tr - 019665
-                            </div>
-                             <div class="w-40 h-48 bg-white rounded-2xl overflow-hidden border border-slate-200 relative shadow-sm">
-                                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                     <i class="fas fa-file-contract text-3xl mb-2 text-slate-200"></i>
-                                    <span class="text-[10px] font-bold text-slate-400">HĐ Đặt Cọc</span>
-                                    <span class="text-[10px] font-mono text-rose-500 font-bold bg-rose-50 px-2 py-0.5 rounded mt-1">019665</span>
-                                </div>
+                            <div class="w-24 h-32 bg-white rounded-xl overflow-hidden border border-slate-200 flex flex-col items-center justify-center relative">
+                                <i class="fas fa-file-contract text-2xl text-slate-300 mb-1"></i>
+                                <span class="text-[8px] font-bold text-slate-400">HĐ Đặt Cọc</span>
+                                <span class="text-[8px] font-mono text-rose-500 font-bold bg-rose-50 px-1 rounded mt-1">019663</span>
+                                <div class="absolute bottom-1 right-1 bg-green-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[8px]"><i class="fas fa-check"></i></div>
                             </div>
                         </div>
                     </div>
@@ -400,376 +375,327 @@
             </div>
         </div>
 
-        <!-- 9. Deep Dive 1: Room Info -->
+        <!-- 9. Deep Dive 1: Room Info (Stacked) -->
         <div class="slide">
-            <h2 class="text-3xl font-bold text-slate-800 mb-10 anim">Zoom In: Thông Tin Phòng 🔍</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
-                <div class="modern-card p-8 anim delay-100 bg-white border-t-4 border-rose-400">
-                    <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center text-rose-500 text-xl mb-4 shadow-sm"><i class="fas fa-map-marker-alt"></i></div>
-                    <h3 class="text-xl font-bold text-slate-800">Địa Chỉ</h3>
-                    <p class="text-sm text-slate-500 mt-2">Viết tắt theo quy định (hỏi Leader nhé).</p>
-                    <div class="mt-4 bg-slate-100 p-3 rounded-lg text-sm font-mono text-slate-700 font-bold border border-slate-200">125TBT.P2.Q5</div>
-                </div>
-
-                <div class="modern-card p-8 anim delay-200 bg-white border-t-4 border-blue-400">
-                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 text-xl mb-4 shadow-sm"><i class="fas fa-door-open"></i></div>
-                    <h3 class="text-xl font-bold text-slate-800">Mã Phòng</h3>
-                    <p class="text-sm text-slate-500 mt-2">Số phòng khách chốt.</p>
-                    <div class="mt-4 bg-slate-100 p-3 rounded-lg text-sm font-mono text-slate-700 font-bold border border-slate-200">101, 202...</div>
-                </div>
-
-                <div class="modern-card p-8 anim delay-300 bg-white border-t-4 border-yellow-400">
-                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-4 shadow-sm"><i class="fas fa-tag"></i></div>
-                    <h3 class="text-xl font-bold text-slate-800">Giá Phòng</h3>
-                    <p class="text-sm text-slate-500 mt-2">Giá chốt cuối cùng trên HĐ.</p>
-                    <div class="mt-4 bg-slate-100 p-3 rounded-lg text-sm font-mono text-slate-700 font-bold border border-slate-200">8.000.000</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 10. Deep Dive 2: Logic -->
-        <div class="slide">
-            <h2 class="text-3xl font-bold text-slate-800 mb-10 anim">Zoom In: Tiền & Hạn 💸</h2>
-            <div class="flex flex-col md:flex-row gap-8 w-full max-w-5xl">
-                <!-- Duration -->
-                <div class="modern-card p-10 flex-1 anim delay-100 bg-white">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center"><i class="far fa-clock text-blue-500 mr-3 text-2xl"></i>Thời Hạn Thuê</h3>
-                    <div class="space-y-3">
-                        <div class="bg-slate-50 p-4 rounded-xl flex justify-between items-center border border-slate-100">
-                            <span class="font-bold text-slate-600">6 Tháng</span>
-                            <i class="fas fa-arrow-right text-slate-300"></i>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl flex justify-between items-center border border-slate-100">
-                            <span class="font-bold text-slate-600">12 Tháng</span>
-                            <i class="fas fa-arrow-right text-slate-300"></i>
+            <div class="slide-content w-full px-4">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center anim">Thông Tin Phòng 🔍</h2>
+                <div class="flex flex-col gap-3 w-full max-w-sm mx-auto">
+                    <div class="modern-card p-4 anim delay-100 flex items-center gap-4 bg-white border-l-4 border-rose-400">
+                        <div class="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center text-rose-500"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-800">Địa Chỉ</h3>
+                            <div class="text-xs bg-slate-100 px-2 py-1 rounded inline-block mt-1 font-mono">125TBT.P2.Q5</div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Logic Arrow -->
-                <div class="hidden md:flex items-center justify-center text-slate-300 text-4xl anim delay-200">
-                    <i class="fas fa-link"></i>
-                </div>
-
-                <!-- Commission -->
-                <div class="modern-card p-10 flex-1 anim delay-300 border-2 border-purple-100 bg-purple-50/30">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-slate-800 flex items-center"><i class="fas fa-percent text-purple-500 mr-3 text-2xl"></i>Hoa Hồng</h3>
-                        <span class="text-[10px] bg-purple-200 text-purple-700 px-3 py-1 rounded-full font-bold">Check Drive</span>
-                    </div>
-                     <div class="space-y-3">
-                        <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                            <span class="text-slate-500 text-sm">Thường là:</span>
-                            <span class="font-black text-purple-500 text-xl">50%</span>
+                    <div class="modern-card p-4 anim delay-200 flex items-center gap-4 bg-white border-l-4 border-blue-400">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-500"><i class="fas fa-door-open"></i></div>
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-800">Mã Phòng</h3>
+                            <div class="text-xs bg-slate-100 px-2 py-1 rounded inline-block mt-1 font-mono">101, 202...</div>
                         </div>
-                        <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                            <span class="text-slate-500 text-sm">Thường là:</span>
-                            <span class="font-black text-purple-500 text-xl">80% - 100%</span>
+                    </div>
+                    <div class="modern-card p-4 anim delay-300 flex items-center gap-4 bg-white border-l-4 border-yellow-400">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600"><i class="fas fa-tag"></i></div>
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-800">Giá Phòng</h3>
+                            <div class="text-xs bg-slate-100 px-2 py-1 rounded inline-block mt-1 font-mono">8.000.000</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 11. Deep Dive 3 -->
+        <!-- 10. Deep Dive 2: Logic (Stacked) -->
         <div class="slide">
-            <h2 class="text-3xl font-bold text-slate-800 mb-10 anim">Zoom In: Mã Hợp Đồng 📝</h2>
-             <div class="grid md:grid-cols-2 gap-8 w-full max-w-5xl">
-                <div class="modern-card p-8 anim delay-100 bg-white">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4"><i class="fas fa-wallet text-green-500 mr-2"></i>Tiền Cọc</h3>
-                    <p class="text-slate-500 text-sm mb-4">Khách cọc bao nhiêu ghi bấy nhiêu.</p>
-                    <div class="grid grid-cols-2 gap-3 text-sm font-bold text-slate-600">
-                        <div class="bg-slate-100 p-3 rounded-xl text-center">Cọc 1tr</div>
-                        <div class="bg-slate-100 p-3 rounded-xl text-center">Cọc 1 tháng</div>
+            <div class="slide-content w-full px-4">
+                 <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center anim">Tiền & Hạn 💸</h2>
+                 <div class="flex flex-col gap-4 w-full max-w-sm mx-auto">
+                    <!-- Duration -->
+                    <div class="modern-card p-5 anim delay-100 bg-white">
+                        <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center"><i class="far fa-clock text-blue-500 mr-2"></i>Thời Hạn Thuê</h3>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-slate-100 px-3 py-2 rounded-lg font-bold text-slate-600 flex-1 text-center">6 Tháng</span>
+                            <span class="bg-slate-100 px-3 py-2 rounded-lg font-bold text-slate-600 flex-1 text-center">12 Tháng</span>
+                        </div>
                     </div>
-                </div>
-                <div class="modern-card p-8 anim delay-200 border-2 border-rose-100 bg-rose-50/30">
-                    <div class="flex justify-between items-start">
-                         <h3 class="text-xl font-bold text-slate-800 mb-4"><i class="fas fa-barcode text-rose-500 mr-2"></i>Mã Hợp Đồng</h3>
-                         <span class="bg-white text-xs px-2 py-1 rounded shadow-sm text-slate-400">Góc phải dưới cùng</span>
+
+                    <!-- Commission -->
+                    <div class="modern-card p-5 anim delay-200 border border-purple-200 bg-purple-50">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-sm font-bold text-slate-800 flex items-center"><i class="fas fa-percent text-purple-500 mr-2"></i>Hoa Hồng</h3>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm mb-2">
+                            <span class="text-slate-500 text-xs">Thường là:</span>
+                            <span class="font-black text-purple-600 text-lg">50%</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                            <span class="text-slate-500 text-xs">Thường là:</span>
+                            <span class="font-black text-purple-600 text-lg">80%</span>
+                        </div>
                     </div>
-                    <div class="bg-white text-rose-500 p-4 rounded-xl text-center font-black text-3xl border border-rose-100 shadow-sm tracking-widest mt-2">
+                 </div>
+            </div>
+        </div>
+
+        <!-- 11. Deep Dive 3: Contract Code -->
+        <div class="slide">
+            <div class="slide-content w-full px-4 text-center">
+                <h2 class="text-2xl font-bold text-slate-800 mb-8 anim">Mã Hợp Đồng 📝</h2>
+                <div class="modern-card p-6 anim delay-100 border-2 border-rose-100 bg-rose-50/50">
+                    <h3 class="text-sm font-bold text-slate-600 mb-2">QUAN TRỌNG NHẤT</h3>
+                    <div class="bg-white text-rose-500 p-4 rounded-xl text-center font-black text-4xl border border-rose-200 shadow-sm tracking-widest mb-2">
                         019663
                     </div>
+                    <p class="text-xs text-slate-400">Nằm ở góc phải dưới cùng tờ HĐ</p>
                 </div>
             </div>
         </div>
 
         <!-- 12. Image Requirements -->
         <div class="slide">
-            <h2 class="text-3xl text-slate-800 font-bold mb-8 anim">Ảnh Chụp "Có Tâm" 📸</h2>
-            <div class="flex flex-col md:flex-row items-center gap-16">
-                <!-- Contract Paper -->
-                <div class="relative w-72 h-96 bg-white text-slate-800 p-6 rounded shadow-2xl rotate-[-3deg] anim delay-100 flex flex-col border border-slate-200">
-                    <div class="text-center font-bold border-b-2 border-slate-200 pb-4 mb-4 text-sm tracking-wider">HỢP ĐỒNG ĐẶT CỌC</div>
-                    <div class="space-y-3 flex-1 opacity-20">
-                        <div class="h-3 bg-slate-300 w-full rounded-full"></div>
-                        <div class="h-3 bg-slate-300 w-5/6 rounded-full"></div>
-                        <div class="h-3 bg-slate-300 w-full rounded-full"></div>
-                        <div class="h-3 bg-slate-300 w-4/6 rounded-full"></div>
+            <div class="slide-content w-full px-4">
+                <h2 class="text-2xl text-slate-800 font-bold mb-6 text-center anim">Ảnh Chụp "Có Tâm" 📸</h2>
+                
+                <!-- Contract Paper Mini -->
+                <div class="w-40 h-52 bg-white text-slate-800 p-3 rounded shadow-xl mx-auto mb-6 rotate-[-2deg] border border-slate-200 relative anim delay-100">
+                    <div class="text-[8px] font-bold border-b border-slate-200 pb-1 mb-2 text-center">HỢP ĐỒNG</div>
+                    <div class="space-y-1 opacity-20">
+                        <div class="h-1 bg-slate-400 w-full rounded"></div>
+                        <div class="h-1 bg-slate-400 w-5/6 rounded"></div>
+                        <div class="h-1 bg-slate-400 w-full rounded"></div>
                     </div>
-                    <div class="flex justify-between items-end mt-4">
-                        <div class="text-xs font-mono border-2 border-rose-500 text-rose-600 px-2 py-1 font-bold bg-rose-50 rounded">MÃ: 019663</div>
-                        <div class="w-16 h-16 border-4 border-rose-500 rounded-full flex items-center justify-center text-[10px] font-black text-rose-500 -rotate-12 bg-white/80 backdrop-blur">ĐÃ KÝ</div>
-                    </div>
+                    <div class="absolute bottom-2 right-2 border border-rose-500 text-rose-500 text-[8px] px-1 font-bold rounded">019663</div>
                     <!-- Markers -->
-                    <div class="absolute -top-3 -left-3 w-8 h-8 border-t-4 border-l-4 border-green-500 rounded-tl-lg"></div>
-                    <div class="absolute -top-3 -right-3 w-8 h-8 border-t-4 border-r-4 border-green-500 rounded-tr-lg"></div>
-                    <div class="absolute -bottom-3 -left-3 w-8 h-8 border-b-4 border-l-4 border-green-500 rounded-bl-lg"></div>
-                    <div class="absolute -bottom-3 -right-3 w-8 h-8 border-b-4 border-r-4 border-green-500 rounded-br-lg"></div>
+                    <div class="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-green-500"></div>
+                    <div class="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-green-500"></div>
+                    <div class="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-green-500"></div>
+                    <div class="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-green-500"></div>
                 </div>
 
-                <div class="space-y-4 anim delay-200">
-                    <div class="flex items-center gap-4 bg-white/60 p-5 rounded-2xl border border-white shadow-sm w-80 hover:scale-105 transition">
-                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600"><i class="fas fa-expand"></i></div>
-                        <div>
-                            <div class="font-bold text-slate-700">Full 4 góc</div>
-                            <div class="text-xs text-slate-500 font-medium">Không mất góc giấy</div>
-                        </div>
+                <div class="space-y-3 w-full max-w-xs mx-auto anim delay-200">
+                    <div class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                        <i class="fas fa-expand text-green-500"></i>
+                        <span class="text-xs font-bold text-slate-600">Full 4 góc giấy</span>
                     </div>
-                    <div class="flex items-center gap-4 bg-white/60 p-5 rounded-2xl border border-white shadow-sm w-80 hover:scale-105 transition">
-                        <div class="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center text-rose-500"><i class="fas fa-barcode"></i></div>
-                        <div>
-                            <div class="font-bold text-slate-700">Rõ Mã HĐ</div>
-                            <div class="text-xs text-slate-500 font-medium">Quan trọng nhất!</div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 bg-white/60 p-5 rounded-2xl border border-white shadow-sm w-80 hover:scale-105 transition">
-                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-500"><i class="fas fa-check-double"></i></div>
-                        <div>
-                            <div class="font-bold text-slate-700">Khớp Info</div>
-                            <div class="text-xs text-slate-500 font-medium">Tin nhắn sao, giấy vậy</div>
-                        </div>
+                    <div class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                        <i class="fas fa-barcode text-rose-500"></i>
+                        <span class="text-xs font-bold text-slate-600">Rõ Mã HĐ (Góc phải)</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 13. Section 2 Title -->
+        <!-- 13. Re-report Section -->
         <div class="slide">
-            <div class="text-center anim">
+            <div class="anim text-center">
                 <div class="section-tag">LEVEL 2</div>
-                <div class="w-40 h-40 rounded-full bg-orange-100 border-4 border-white flex items-center justify-center mx-auto mb-8 shadow-xl shadow-orange-200">
-                    <i class="fas fa-sync-alt text-6xl text-orange-500 animate-spin-slow"></i>
+                <div class="w-24 h-24 rounded-full bg-orange-100 border-4 border-white flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-sync-alt text-4xl text-orange-500"></i>
                 </div>
-                <h2 class="text-7xl font-black text-slate-800 mb-4">BÁO LẠI</h2>
-                <p class="text-2xl text-slate-500 font-medium">Khu vực "Sửa Sai" 🛠️</p>
+                <h2 class="text-4xl font-black text-slate-800 mb-2">BÁO LẠI</h2>
+                <p class="text-sm text-slate-500 font-bold bg-white px-4 py-2 rounded-full inline-block shadow-sm">Khu vực "Sửa Sai" 🛠️</p>
             </div>
         </div>
 
         <!-- 14. Why Re-report -->
         <div class="slide">
-            <div class="modern-card p-12 max-w-3xl text-center anim bg-white">
-                <h3 class="text-3xl font-bold text-slate-800 mb-6">Tại sao phải phiền phức vậy? 🤔</h3>
-                <p class="text-slate-600 text-lg leading-relaxed mb-8 font-medium">
-                    Vì quy tắc <span class="bg-rose-500 text-white px-2 py-1 rounded font-bold shadow-md shadow-rose-200">NO DELETE</span> (Không thu hồi). <br>
-                    Sai thì để đó, qua nhóm 2 báo lại câu đúng. Đừng xóa nhé!
+            <div class="slide-content w-full px-4 text-center">
+                 <div class="bg-rose-500 text-white font-black text-xl px-6 py-3 rounded-2xl shadow-lg shadow-rose-200 mb-6 inline-block anim">NO DELETE 🚫</div>
+                 <p class="text-slate-600 mb-8 font-medium anim delay-100">
+                    Tuyệt đối không thu hồi tin nhắn sai. Hãy để đó và sang nhóm 2 sửa lại.
                 </p>
-                <div class="flex justify-center gap-4 text-sm font-bold flex-wrap">
-                    <div class="bg-slate-200 px-5 py-3 rounded-xl text-slate-400 line-through decoration-2">Tin nhắn cũ (Sai)</div>
-                    <i class="fas fa-arrow-right self-center text-slate-300 text-xl"></i>
-                    <div class="bg-orange-100 text-orange-600 px-5 py-3 rounded-xl border border-orange-200 shadow-sm">Tin nhắn mới (Chuẩn) ✨</div>
+                 <div class="flex flex-col gap-2 items-center text-xs font-bold w-full max-w-xs mx-auto anim delay-200">
+                    <div class="bg-slate-200 px-4 py-3 rounded-xl text-slate-400 line-through w-full">Tin nhắn cũ (Sai)</div>
+                    <i class="fas fa-arrow-down text-slate-300"></i>
+                    <div class="bg-orange-100 text-orange-600 px-4 py-3 rounded-xl border border-orange-200 w-full shadow-sm">Tin nhắn mới (Chuẩn) ✨</div>
                 </div>
             </div>
         </div>
 
         <!-- 15. Re-report Syntax 1 -->
         <div class="slide">
-             <h2 class="text-3xl text-slate-800 font-bold mb-8 anim">Case 1: Sai Thông Tin</h2>
-             <div class="modern-card p-10 w-full max-w-4xl anim delay-100 bg-white">
-                 <p class="text-slate-500 mb-6 font-medium text-center">Áp dụng khi: Lỡ tay gõ sai giá, sai phòng...</p>
-                 <div class="bg-slate-800 p-6 rounded-2xl text-white font-mono text-xl text-center shadow-lg">
-                     [Cú pháp bình thường] <span class="text-orange-400 font-black ml-2 animate-pulse">(BÁO LẠI)</span>
-                 </div>
-                 <div class="mt-8 flex justify-center">
-                     <div class="text-sm bg-orange-50 text-orange-600 px-4 py-2 rounded-full font-bold border border-orange-100">
-                         <i class="fas fa-magic mr-2"></i> Chỉ cần thêm hậu tố thần thánh này vào cuối
+             <div class="slide-content w-full px-4">
+                 <h2 class="text-2xl text-slate-800 font-bold mb-6 text-center anim">Case 1: Sai Info</h2>
+                 <div class="modern-card p-6 bg-white text-center anim delay-100">
+                     <p class="text-xs text-slate-400 mb-4">Sai giá, sai phòng, lỗi chính tả...</p>
+                     <div class="bg-slate-800 p-4 rounded-xl text-white font-mono text-sm shadow-lg mb-4">
+                         [Cú pháp cũ] <br>
+                         <span class="text-orange-400 font-black mt-1 block">(BÁO LẠI)</span>
                      </div>
+                     <span class="text-xs bg-orange-50 text-orange-600 px-3 py-1 rounded-full font-bold">Thêm đuôi này vào cuối</span>
                  </div>
-             </div>
+            </div>
         </div>
 
         <!-- 16. Re-report Syntax 2 -->
         <div class="slide">
-             <h2 class="text-3xl text-slate-800 font-bold mb-8 anim">Case 2: Đổi Mã HĐ</h2>
-             <div class="modern-card p-10 w-full max-w-4xl anim delay-100 bg-white">
-                 <div class="flex gap-6 mb-6 text-sm text-slate-500 justify-center font-medium">
-                     <span class="bg-slate-100 px-3 py-1 rounded-full"><i class="fas fa-circle text-[8px] mr-2 text-rose-400"></i>Mất giấy cọc</span>
-                     <span class="bg-slate-100 px-3 py-1 rounded-full"><i class="fas fa-circle text-[8px] mr-2 text-rose-400"></i>Sale viết nhầm</span>
+             <div class="slide-content w-full px-4">
+                 <h2 class="text-2xl text-slate-800 font-bold mb-6 text-center anim">Case 2: Đổi Mã HĐ</h2>
+                 <div class="modern-card p-6 bg-white text-center anim delay-100">
+                     <div class="bg-slate-800 p-4 rounded-xl text-white font-mono text-sm leading-relaxed shadow-lg">
+                         ... - <span class="line-through text-slate-500">MÃ CŨ</span> <br> 
+                         <span class="text-blue-400 font-bold bg-blue-500/20 px-2 rounded mt-1 inline-block">(Sang MÃ MỚI)</span>
+                     </div>
+                     <p class="text-xs text-slate-400 mt-4">Dùng khi viết nhầm giấy cọc hoặc mất giấy.</p>
                  </div>
-                 <div class="bg-slate-800 p-6 rounded-2xl text-white font-mono text-lg text-center leading-loose shadow-lg">
-                     ... - <span class="line-through text-slate-500 mx-2 decoration-rose-500 decoration-2">MÃ CŨ</span> <span class="text-blue-400 font-bold bg-blue-500/10 px-2 rounded">(Sang MÃ MỚI)</span>
-                 </div>
-             </div>
+            </div>
         </div>
 
-        <!-- 17. Section 3 Title -->
+        <!-- 17. GDTC Intro -->
         <div class="slide">
-            <div class="text-center anim">
+            <div class="anim text-center">
                 <div class="section-tag">FINAL LEVEL</div>
-                <div class="w-40 h-40 rounded-[2.5rem] bg-green-500 flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-400/50">
-                    <i class="fas fa-flag-checkered text-7xl text-white"></i>
+                <div class="w-32 h-32 rounded-[2rem] bg-green-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-green-400/40">
+                    <i class="fas fa-flag-checkered text-5xl text-white"></i>
                 </div>
-                <h2 class="text-8xl font-black text-slate-800 mb-4 tracking-tighter">GDTC</h2>
-                <p class="text-2xl text-slate-500 font-medium">Về Đích - Nhận Hoa Hồng 💰</p>
+                <h2 class="text-6xl font-black text-slate-800 mb-2">GDTC</h2>
+                <p class="text-lg text-slate-500 font-medium">Lụm lúa 🌾</p>
             </div>
         </div>
 
         <!-- 18. GDTC Checklist -->
         <div class="slide">
-            <h2 class="text-3xl text-slate-800 font-bold mb-10 anim">Điều Kiện Cần & Đủ ✅</h2>
-            <div class="grid grid-cols-1 gap-5 w-full max-w-2xl anim delay-100">
-                <div class="modern-card p-5 flex items-center gap-5 bg-white border-l-8 border-green-500">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold"><i class="fas fa-check"></i></div>
-                    <span class="text-slate-700 text-lg font-bold">Khách đã ký Hợp đồng thuê</span>
-                </div>
-                <div class="modern-card p-5 flex items-center gap-5 bg-white border-l-8 border-green-500">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold"><i class="fas fa-check"></i></div>
-                    <span class="text-slate-700 text-lg font-bold">Đã đóng <span class="text-green-600 underline decoration-wavy">ĐỦ</span> tiền cọc + tiền nhà</span>
-                </div>
-                 <div class="modern-card p-5 flex items-center gap-5 bg-green-50 border border-green-200">
-                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold animate-bounce"><i class="fas fa-user-check"></i></div>
-                    <span class="text-green-700 font-black text-lg uppercase tracking-wide">Chủ nhà đã XÁC NHẬN</span>
+            <div class="slide-content w-full px-4">
+                <h2 class="text-2xl text-slate-800 font-bold mb-6 text-center anim">Điều Kiện Đủ ✅</h2>
+                <div class="flex flex-col gap-3 w-full max-w-sm mx-auto anim delay-100">
+                    <div class="bg-white p-4 rounded-xl border-l-4 border-green-500 shadow-sm flex items-center gap-3">
+                        <i class="fas fa-check text-green-500"></i>
+                        <span class="text-sm font-bold text-slate-700">Khách đã ký HĐ Thuê</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border-l-4 border-green-500 shadow-sm flex items-center gap-3">
+                        <i class="fas fa-check text-green-500"></i>
+                        <span class="text-sm font-bold text-slate-700">Đã đóng <span class="text-green-600 underline">ĐỦ TIỀN</span></span>
+                    </div>
+                     <div class="bg-green-100 p-4 rounded-xl border border-green-200 shadow-sm flex items-center gap-3">
+                        <i class="fas fa-user-check text-green-700"></i>
+                        <span class="text-sm font-black text-green-800 uppercase">Chủ nhà XÁC NHẬN</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 19. Syntax Shift -->
         <div class="slide">
-            <h2 class="text-3xl text-slate-800 font-bold mb-10 anim">⚠️ Cú "Twist" Quan Trọng</h2>
-            <div class="modern-card p-12 max-w-5xl w-full anim delay-100 flex flex-col md:flex-row items-center justify-between gap-10 bg-white">
-                <div class="text-center opacity-50 grayscale hover:grayscale-0 transition duration-500">
-                    <div class="text-lg font-bold mb-3 text-slate-400">Lúc Báo Cọc</div>
-                    <div class="bg-slate-200 text-slate-500 w-48 py-4 rounded-xl font-mono text-sm mx-auto">Giá Phòng</div>
-                </div>
+            <div class="slide-content w-full px-4 text-center">
+                <h2 class="text-2xl text-slate-800 font-bold mb-8 anim">⚠️ Thay Đổi Quan Trọng</h2>
                 
-                <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center"><i class="fas fa-arrow-right text-slate-400"></i></div>
-                
-                <div class="text-center transform scale-110">
-                    <div class="text-lg font-bold mb-3 text-green-600">Lúc GDTC</div>
-                    <div class="bg-gradient-to-r from-green-400 to-green-600 w-64 py-5 rounded-2xl text-white font-black shadow-xl shadow-green-200 text-lg">
-                        HOA HỒNG NHẬN VỀ
+                <div class="modern-card p-6 bg-white anim delay-100">
+                    <div class="opacity-40 mb-4">
+                        <div class="text-xs font-bold mb-1">Lúc Báo Cọc</div>
+                        <div class="bg-slate-200 text-slate-500 py-2 rounded-lg font-mono text-xs">Giá Phòng</div>
+                    </div>
+                    
+                    <div class="text-slate-300 mb-4"><i class="fas fa-arrow-down"></i></div>
+                    
+                    <div class="transform scale-105">
+                        <div class="text-xs font-bold mb-1 text-green-600">Lúc GDTC</div>
+                        <div class="bg-green-500 text-white py-3 rounded-lg font-black shadow-lg shadow-green-200 text-sm">
+                            HOA HỒNG NHẬN VỀ
+                        </div>
                     </div>
                 </div>
+                <p class="mt-6 text-xs text-slate-500 px-4 anim delay-200">
+                    (Số tiền thực tế công ty bỏ túi sau khi trừ hết chi phí hỗ trợ khách)
+                </p>
             </div>
-             <p class="mt-8 text-slate-500 text-center max-w-2xl anim delay-200 font-medium text-sm bg-white/50 px-6 py-3 rounded-full inline-block">
-                (Số tiền thực tế công ty bỏ túi sau khi trừ hết chi phí hỗ trợ)
-            </p>
         </div>
 
-        <!-- 20. Paperwork Logic (Expanded) -->
+        <!-- 20. Paperwork Logic -->
         <div class="slide">
-             <div class="absolute top-10 left-10 anim">
-                 <h2 class="text-4xl font-black text-slate-800 mb-2">Điền Phiếu GDTC ✍️</h2>
-                 <div class="bg-rose-500 text-white text-xs font-bold px-4 py-1.5 rounded-full inline-block shadow-lg shadow-rose-200 animate-pulse">MUST KNOW</div>
-            </div>
-            
-            <div class="flex flex-col md:flex-row gap-6 w-full max-w-6xl px-4 mt-16 anim delay-100">
-                <!-- Instruction 1 -->
-                <div class="modern-card p-8 flex-1 border-t-8 border-green-400 bg-white relative overflow-hidden group hover:-translate-y-2">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition duration-500"></div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2 relative z-10">1. Tổng phí dịch vụ</h3>
-                    <p class="text-slate-500 text-sm mb-4 relative z-10">Ghi số <strong class="text-green-600">HOA HỒNG THỰC NHẬN</strong>.</p>
-                    <div class="bg-slate-50 text-slate-800 p-4 rounded-xl font-mono text-sm border border-slate-200 relative z-10">
-                        Tổng tiền: <span class="font-bold text-blue-600 bg-blue-50 px-1 rounded">7.000.000</span>
-                    </div>
-                </div>
+             <div class="slide-content w-full px-4">
+                 <h2 class="text-2xl font-black text-slate-800 mb-6 text-center anim">Điền Phiếu GDTC ✍️</h2>
+                 
+                 <div class="flex flex-col gap-4 w-full max-w-sm mx-auto anim delay-100">
+                     <div class="bg-white p-4 rounded-xl border-l-4 border-green-400 shadow-sm">
+                         <h3 class="font-bold text-sm text-slate-800 mb-1">1. Tổng phí dịch vụ</h3>
+                         <p class="text-xs text-slate-500 mb-2">Ghi số <strong class="text-green-600">HOA HỒNG THỰC NHẬN</strong>.</p>
+                         <div class="bg-slate-50 p-2 rounded text-xs font-mono text-blue-600 font-bold border border-slate-200">7.000.000</div>
+                     </div>
+                     
+                     <div class="bg-white p-4 rounded-xl border-l-4 border-yellow-400 shadow-sm">
+                         <h3 class="font-bold text-sm text-slate-800 mb-1">2. Hỗ trợ khách</h3>
+                         <p class="text-xs text-slate-500">Có "cắt máu" thì nhớ <strong class="text-yellow-500">TICK</strong> vào ô hỗ trợ.</p>
+                     </div>
 
-                <!-- Instruction 2 -->
-                <div class="modern-card p-8 flex-1 border-t-8 border-yellow-400 bg-white relative overflow-hidden group hover:-translate-y-2">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-yellow-100 rounded-full opacity-50 group-hover:scale-150 transition duration-500"></div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2 relative z-10">2. Hỗ trợ khách</h3>
-                    <p class="text-slate-500 text-sm mb-4 relative z-10">Có "cắt máu" thì nhớ <strong class="text-yellow-500">TICK</strong> vào đây.</p>
-                    <div class="bg-slate-50 text-slate-800 p-4 rounded-xl text-sm border border-slate-200 flex items-center gap-3 relative z-10">
-                        <i class="fas fa-check-square text-blue-500 text-xl"></i> 
-                        <span class="font-medium">Giảm tiền mặt</span>
-                    </div>
-                </div>
-
-                 <!-- Instruction 3 -->
-                <div class="modern-card p-8 flex-1 border-t-8 border-rose-400 bg-white relative overflow-hidden group hover:-translate-y-2">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-100 rounded-full opacity-50 group-hover:scale-150 transition duration-500"></div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2 relative z-10">3. Chữ ký Sếp</h3>
-                    <p class="text-slate-500 text-sm mb-4 relative z-10">Có hỗ trợ là phải có chữ ký duyệt của Quản lý nhé.</p>
-                    <div class="h-10 border-b-2 border-dashed border-slate-300 w-1/2 mt-4"></div>
-                </div>
+                     <div class="bg-white p-4 rounded-xl border-l-4 border-rose-400 shadow-sm">
+                         <h3 class="font-bold text-sm text-slate-800 mb-1">3. Chữ ký Sếp</h3>
+                         <p class="text-xs text-slate-500">Bắt buộc phải có chữ ký duyệt của Quản lý.</p>
+                     </div>
+                 </div>
             </div>
         </div>
 
         <!-- 21. Evidence Standard -->
         <div class="slide">
-             <h2 class="text-3xl text-slate-800 font-bold mb-8 anim">Minh Chứng (Proof) 🕵️</h2>
-             <div class="grid md:grid-cols-2 gap-12 w-full max-w-5xl px-8">
-                 <div class="modern-card p-10 text-center anim delay-100 bg-white group hover:bg-blue-50 transition">
-                     <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500 group-hover:scale-110 transition"><i class="fas fa-file-signature text-4xl"></i></div>
-                     <h3 class="font-bold text-2xl text-slate-800 mb-2">Offline (Trực tiếp)</h3>
-                     <p class="text-slate-500">Chụp 2 mặt phiếu có <strong>chữ ký tươi</strong> của chủ nhà.</p>
-                 </div>
-                 
-                 <div class="modern-card p-10 text-center anim delay-200 bg-white border-dashed border-4 border-slate-200 relative group hover:border-purple-300 transition">
-                     <div class="absolute top-0 right-0 bg-slate-100 text-xs font-bold px-3 py-1 rounded-bl-xl text-slate-500">Phổ biến</div>
-                     <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-500 group-hover:scale-110 transition"><i class="fas fa-comment-dots text-4xl"></i></div>
-                     <h3 class="font-bold text-2xl text-slate-800 mb-4">Online</h3>
-                     
-                     <div class="flex justify-between items-center bg-slate-50 p-4 rounded-xl text-left border border-slate-100 shadow-inner">
-                        <div>
-                            <div class="text-[10px] text-slate-400 font-bold uppercase">Chủ nhà</div>
-                            <div class="text-xs text-slate-800 font-medium">"Ok em, xác nhận nhé"</div>
-                        </div>
-                        <i class="fas fa-check-circle text-green-500 text-xl"></i>
-                     </div>
-                     
-                     <div class="mt-4 text-xs text-slate-400 font-medium">
-                         (Thả tim <i class="fas fa-heart text-red-400"></i> là KHÔNG tính nha)
-                     </div>
-                 </div>
-             </div>
+            <div class="slide-content w-full px-4">
+                <h2 class="text-2xl text-slate-800 font-bold mb-6 text-center anim">Minh Chứng (Proof) 🕵️</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="modern-card p-4 text-center anim delay-100 bg-white h-40 flex flex-col justify-center items-center">
+                        <i class="fas fa-file-signature text-3xl text-blue-500 mb-2"></i>
+                        <h3 class="font-bold text-sm text-slate-800">Trực tiếp</h3>
+                        <p class="text-[10px] text-slate-500 mt-1">Chụp phiếu có chữ ký tươi</p>
+                    </div>
+                    <div class="modern-card p-4 text-center anim delay-200 bg-white h-40 flex flex-col justify-center items-center border border-purple-200">
+                        <i class="fas fa-comment-dots text-3xl text-purple-500 mb-2"></i>
+                        <h3 class="font-bold text-sm text-slate-800">Online</h3>
+                        <p class="text-[10px] text-slate-500 mt-1">Ảnh tin nhắn chủ xác nhận "OK"</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 22. Common Mistakes -->
         <div class="slide">
-            <h2 class="text-4xl font-bold text-slate-800 mb-10 anim">Đừng Để Bị Phạt! 🚨</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl px-4">
-                <div class="modern-card p-8 bg-white hover:shadow-xl hover:-translate-y-2 transition anim delay-100 group border-t-0 border-b-4 border-rose-500">
-                    <div class="text-5xl font-black text-slate-100 mb-4 group-hover:text-rose-100 transition">01</div>
-                    <h4 class="font-bold text-rose-500 text-xl mb-2">Thiếu Chữ Ký</h4>
-                    <p class="text-sm text-slate-500">Cắt máu mà không xin chữ ký Sếp duyệt.</p>
-                </div>
-                <div class="modern-card p-8 bg-white hover:shadow-xl hover:-translate-y-2 transition anim delay-200 group border-t-0 border-b-4 border-rose-500">
-                    <div class="text-5xl font-black text-slate-100 mb-4 group-hover:text-rose-100 transition">02</div>
-                    <h4 class="font-bold text-rose-500 text-xl mb-2">Tính Sai Tiền</h4>
-                    <p class="text-sm text-slate-500">Nhầm lẫn giữa Tổng giá trị HĐ và Hoa hồng thực nhận.</p>
-                </div>
-                <div class="modern-card p-8 bg-white hover:shadow-xl hover:-translate-y-2 transition anim delay-300 group border-t-0 border-b-4 border-rose-500">
-                    <div class="text-5xl font-black text-slate-100 mb-4 group-hover:text-rose-100 transition">03</div>
-                    <h4 class="font-bold text-rose-500 text-xl mb-2">Spam Tin Nhắn</h4>
-                    <p class="text-sm text-slate-500">Gộp Báo Cọc và GDTC vào chung 1 tin nhắn.</p>
+            <div class="slide-content w-full px-4">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 text-center anim">Đừng Để Bị Phạt! 🚨</h2>
+                <div class="flex flex-col gap-3 w-full max-w-sm mx-auto">
+                    <div class="bg-white p-4 rounded-xl flex items-center gap-4 shadow-sm anim delay-100 border-r-4 border-rose-500">
+                        <span class="text-2xl font-black text-rose-200">01</span>
+                        <div>
+                            <h4 class="font-bold text-rose-500 text-sm">Thiếu Chữ Ký</h4>
+                            <p class="text-[10px] text-slate-500">Cắt máu mà không xin duyệt.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl flex items-center gap-4 shadow-sm anim delay-200 border-r-4 border-rose-500">
+                        <span class="text-2xl font-black text-rose-200">02</span>
+                        <div>
+                            <h4 class="font-bold text-rose-500 text-sm">Tính Sai Tiền</h4>
+                            <p class="text-[10px] text-slate-500">Nhầm lẫn số tiền thực nhận.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl flex items-center gap-4 shadow-sm anim delay-300 border-r-4 border-rose-500">
+                        <span class="text-2xl font-black text-rose-200">03</span>
+                        <div>
+                            <h4 class="font-bold text-rose-500 text-sm">Spam Tin Nhắn</h4>
+                            <p class="text-[10px] text-slate-500">Gộp Báo Cọc + GDTC chung 1 tin.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 23. Pro Tip -->
         <div class="slide">
-            <div class="modern-card p-12 max-w-4xl text-center anim bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200">
-                <div class="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl shadow-yellow-300 animate-bounce">
-                    <i class="fas fa-lightbulb text-5xl text-white"></i>
+            <div class="slide-content w-full px-4">
+                <div class="modern-card p-6 text-center anim bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200">
+                    <i class="fas fa-lightbulb text-4xl text-yellow-500 mb-4 animate-bounce"></i>
+                    <h2 class="text-2xl font-black text-slate-800 mb-4">Mẹo Pro 🌟</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed font-medium">
+                        Giá thuê hoặc %HH đổi chút ít ("xíu xiu")? <br>
+                        👉 <span class="bg-yellow-200 px-1 rounded font-bold text-yellow-800">Không cần</span> báo lại nhóm 2. <br>
+                        👉 Chỉ cần ghi chú vào <strong>Phiếu GDTC</strong>.
+                    </p>
                 </div>
-                <h2 class="text-4xl font-black text-slate-800 mb-6">Mẹo Cho Pro Player 🌟</h2>
-                <div class="w-16 h-2 bg-yellow-400 mx-auto mb-8 rounded-full"></div>
-                <p class="text-xl text-slate-600 leading-relaxed font-medium">
-                    Nếu giá thuê hoặc %HH thay đổi chút ít ("xíu xiu") so với lúc cọc, bạn <span class="bg-yellow-200 px-2 rounded font-bold text-yellow-800">không cần</span> báo lại. <br>
-                    Chỉ cần ghi chú rõ ràng vào <strong>Phiếu Xác Nhận GDTC</strong> là xong.
-                </p>
             </div>
         </div>
 
         <!-- 24. Final Outro -->
         <div class="slide">
             <div class="text-center anim">
-                <h2 class="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 mb-8 drop-shadow-sm">MISSION COMPLETE</h2>
-                <p class="text-2xl text-slate-500 mb-12 font-medium max-w-2xl mx-auto">Chúc bạn sớm trở thành "Top Seller" nhé! 🏆</p>
-                <button onclick="goToSlide(0)" class="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-lg hover:bg-violet-600 hover:scale-105 transition-all shadow-xl flex items-center gap-3 mx-auto">
-                    <i class="fas fa-redo-alt"></i> Replay
+                <h2 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 mb-6">DONE! 🏆</h2>
+                <p class="text-lg text-slate-500 mb-8 font-medium px-8">Chúc bạn sớm trở thành "Top Seller" nhé!</p>
+                <button onclick="goToSlide(0)" class="bg-slate-900 text-white w-48 py-4 rounded-full font-bold text-sm shadow-xl flex items-center justify-center gap-2 mx-auto active:scale-95 transition">
+                    <i class="fas fa-redo-alt"></i> Xem Lại
                 </button>
             </div>
         </div>
@@ -781,6 +707,7 @@
         const slides = document.querySelectorAll('.slide');
         const slideCounter = document.getElementById('slideCounter');
         const totalSlides = document.getElementById('totalSlides');
+        const slider = document.getElementById('slider');
 
         totalSlides.innerText = slides.length;
 
@@ -789,10 +716,11 @@
                 slide.classList.remove('active');
                 if (index === currentSlide) {
                     slide.classList.add('active');
+                    // Reset animations
                     const anims = slide.querySelectorAll('.anim');
                     anims.forEach(el => {
                         el.style.opacity = '0';
-                        el.style.transform = 'translateY(30px)';
+                        el.style.transform = 'translateY(20px)';
                         setTimeout(() => {
                             el.style.opacity = '1';
                             el.style.transform = 'translateY(0)';
@@ -800,7 +728,7 @@
                     });
                 }
             });
-            slideCounter.innerText = (currentSlide + 1).toString().padStart(2, '0');
+            slideCounter.innerText = currentSlide + 1;
         }
 
         function changeSlide(direction) {
@@ -818,11 +746,38 @@
             }
         }
 
+        // --- SWIPE GESTURES ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        slider.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const threshold = 50; // Minimum distance to be considered a swipe
+            if (touchEndX < touchStartX - threshold) {
+                // Swipe Left -> Next Slide
+                changeSlide(1);
+            }
+            if (touchEndX > touchStartX + threshold) {
+                // Swipe Right -> Prev Slide
+                changeSlide(-1);
+            }
+        }
+
+        // Keyboard Support
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
             if (e.key === 'ArrowLeft') changeSlide(-1);
         });
 
+        // Initialize
         setTimeout(() => updateSlide(), 100);
     </script>
 </body>
